@@ -35,7 +35,7 @@ export class PostService {
   }
     getPost = async (postid : idpostDto)=>{
         let post = await this.postModel.findById(postid).
-        populate('author','category','-email -password -_id -role').
+        populate('author','-email -password -_id -role').
         populate('category')
         return {message:"Success",post}
     
