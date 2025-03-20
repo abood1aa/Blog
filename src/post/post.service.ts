@@ -47,10 +47,37 @@ export class PostService {
     
     }
 
-    updatepost = async (postid : idpostDto, post: PostDto)=>{
-        let posts = await this.postModel.findByIdAndUpdate(postid,post,{new:true})
-        return {message:"Success",posts}
-
+      async updatePost(id: string, updatePostDto: PostDto, file?: Express.Multer.File) {
+      const baseUrl = 'http://localhost:3004';
+      let imageUrl = null;
+  
+      const existingPost = await this.postModel.findById(id);
+      if (!existingPost) {
+        throw new Error('Post not found');
+      }
+  
+      
+  
+      if (file && file.path) {
+        imageUrl = `${baseUrl}/${file.path.replace(/\\/g, '/')}`;
+        existingPost.media = [imageUrl]; 
+      }
+  
+      const updatedPost = await this.postModel.findByIdAndUpdate(
+        id,
+        {
+          $set: {
+            title: updatePostDto.title || existingPost.title,
+            content: updatePostDto.content || existingPost.content,
+            author: updatePostDto.author || existingPost.author,
+            category: updatePostDto.category || existingPost.category,
+            media: imageUrl ? [imageUrl] : existingPost.media,
+          },
+        },
+        { new: true }, 
+      );
+  
+      return { message: 'Post updated successfully', post: updatedPost };
     }
 
     deletepost = async (postid : idpostDto)=>{
