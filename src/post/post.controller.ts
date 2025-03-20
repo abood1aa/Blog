@@ -28,10 +28,18 @@ import { multerConfig } from 'src/multer.config';
         return this._PostService.getAllPosts()
     }
 
-    @Put(':id')
-    updatepost(@Param('id') postid: idpostDto, @Body()post:PostDto){
-        return this._PostService.updatepost(postid,post)
+  @Put(':id')
+    @UseInterceptors(FileInterceptor('file', multerConfig))
+     UpdatePost(
+      @Param('id') id: string,
+      @Body() updatePostDto: PostDto,
+      @UploadedFile() file?: Express.Multer.File,
+    ) {
+      console.log('Update Body:', updatePostDto);
+      console.log('Update File:', file);
+      return this._PostService.updatePost(id, updatePostDto, file);
     }
+
 
     @Delete(':id')
     deletepost(@Param('id') postid: idpostDto){
