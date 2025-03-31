@@ -36,10 +36,14 @@ getAllUsers = async ()=>{
  
 UpdateUser = async (userid:idDto,user:SignUpdto)=>{
      let users = await this.userModel.findByIdAndUpdate(user,userid,{new:true})
+       return {message:"Success",users}
+
 }
 
 deleteUser = async (userid:idDto)=>{
-    let user = await this.userModel.findByIdAndUpdate(userid)
+    let user = await this.userModel.findByIdAndDelete(userid)
+       return {message:"Success",user}
+
 }
 
 
