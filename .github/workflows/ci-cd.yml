@@ -1,0 +1,38 @@
+name: CI/CD for Blog Project
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 🧾 Checkout repository
+        uses: actions/checkout@v3
+
+      - name: 🧩 Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      - name: 📦 Install dependencies
+        run: npm install
+
+      - name: ✅ Run tests
+        run: |
+          echo "لا يوجد tests حاليًا - اضف ملفات test لاحقًا أو عدّل هنا"
+          # npm test
+
+      - name: 🧹 Run Lint (لو عندك lint script)
+        run: |
+          echo "لا يوجد lint script - اضف 'lint' في package.json لو حابب"
+          # npm run lint
+
+      - name: 🚀 Deploy (اختياري – غيره حسب حالتك)
+        run: |
+          echo "هنا تقدر تضيف أوامر نشر التطبيق"
+          echo "مثال: ssh، rsync، أو أوامر docker"

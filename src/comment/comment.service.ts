@@ -11,6 +11,7 @@ export class CommentService {
         await this .commentModel.create(comment)
         return {meesage:"Success",comment}
     }
+    
 
     getComment = async(commentId:idCommentDto)=>{
         let comment = await this.commentModel.findById(commentId).
